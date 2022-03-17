@@ -18,5 +18,12 @@ namespace TodoApp.Controllers
             var dbUser = await _context.AddUser(user);
             return Ok(dbUser);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetUser([FromQuery] int id)
+        {
+            var dbUser = await _context.GetUser(id);
+            return Ok(dbUser);
+        }
     }
 }

@@ -6,5 +6,6 @@ namespace TodoApp.Data
     public interface IUserDBContext
     {
         public Task<User> AddUser(User user);
+        public Task<User> GetUser(int id);
     }
 }
