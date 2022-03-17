@@ -14,6 +14,9 @@ namespace TodoApp.Data
             var dbUser = await users.AddAsync(user);
             return dbUser.Entity;
         }
+
+        public async Task<User> GetUser(int id) => await users.FirstAsync(x => x.Id == id);
+
         //public async Task<EntityEntry<User>> UpdateUser(User user)
         //{
         //    if(! await users.AnyAsync(u => u.Id == user.Id))
