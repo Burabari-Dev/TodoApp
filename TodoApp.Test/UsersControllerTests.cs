@@ -69,7 +69,7 @@ namespace TodoApp.Test
             var fakeUserUpdate = A.Fake<User>(x => x.WithArgumentsForConstructor(
                 () => new User(23, "John", "john.doe@email.com", "123")));
             var dataStore = A.Fake<IUserDBContext>();
-            A.CallTo(() => dataStore.UpdateUser(fakeUser)).Returns(Task.FromResult(fakeUserUpdate));
+            A.CallTo(() => dataStore.UpdateUser(fakeUserUpdate)).Returns(Task.FromResult(fakeUserUpdate));
             var controller = new UsersController(dataStore);
 
             //WHEN
