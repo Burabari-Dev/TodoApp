@@ -28,8 +28,10 @@ namespace TodoApp.Test
             var actionResult = controller.AddUser(fakeUser);
 
             //THEN
-            var result = actionResult.Result;
+            var result = (OkObjectResult) actionResult.Result;
+            var dbUser = (User) result.Value;
             Assert.NotNull(result);
+            Assert.True(dbUser.Email == fakeUser.Email);
         }
 
 
