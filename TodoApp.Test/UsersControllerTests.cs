@@ -58,6 +58,33 @@ namespace TodoApp.Test
             Assert.False(dbUser?.Id.Equals(fakeUser3.Id));
         }
 
+        [Fact]
+        public void UpdateUser_Should_Return_User_With_Updated_Info()
+        {
+            //GIVEN
+            var fakeUser = A.Fake<User>(x => x.WithArgumentsForConstructor(
+                () => new User(23, "John", "john@email.com", "123")));
+            var fakeUser2 = A.Fake<User>(x => x.WithArgumentsForConstructor(
+                () => new User(12, "Jane", "jane@email.com", "abc")));
+            var fakeUserUpdate = A.Fake<User>(x => x.WithArgumentsForConstructor(
+                () => new User(23, "John", "john.doe@email.com", "123")));
+            var dataStore = A.Fake<IUserDBContext>();
+            A.CallTo(() => dataStore.UpdateUser(fakeUser)).Returns(Task.FromResult(fakeUserUpdate));
+            var controller = new UsersController(dataStore);
+
+            //WHEN
+            var actionResult = controller.UpdateUser(fakeUserUpdate);
+
+            //THEN
+            var result = (OkObjectResult)actionResult.Result;
+            var dbResult = (User)result?.Value;
+            Assert.NotNull(dbResult);
+            Assert.Equal(fakeUserUpdate.Id, dbResult.Id);
+            Assert.Equal(fakeUserUpdate.Email, dbResult.Email);
+            Assert.NotEqual(fakeUser.Email, dbResult.Email);
+            Assert.NotEqual(fakeUser2.Id, dbResult.Id);
+        }
+
 
     }
 }
