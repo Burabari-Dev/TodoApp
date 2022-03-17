@@ -52,10 +52,10 @@ namespace TodoApp.Test
 
             //THEN
             var result = (OkObjectResult) actionResult.Result;
-            var dbUser = (User)result.Value;
-            Assert.True(dbUser.Id.Equals(fakeUser2.Id));
-            Assert.False(dbUser.Id.Equals(fakeUser1.Id));
-            Assert.False(dbUser.Email.Equals(fakeUser3.Email));
+            var dbUser = (User) result?.Value;
+            Assert.True(dbUser?.Id.Equals(fakeUser2.Id));
+            Assert.False(dbUser?.Id.Equals(fakeUser1.Id));
+            Assert.False(dbUser?.Id.Equals(fakeUser3.Id));
         }
 
 
