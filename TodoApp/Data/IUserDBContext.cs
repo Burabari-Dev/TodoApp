@@ -7,5 +7,6 @@ namespace TodoApp.Data
     {
         public Task<User> AddUser(User user);
         public Task<User> GetUser(int id);
+        public Task<User> UpdateUser(User user);
     }
 }
