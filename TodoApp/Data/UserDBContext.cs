@@ -24,5 +24,19 @@ namespace TodoApp.Data
             return users.Update(user).Entity;
         }
 
+        public async Task<bool> DeleteUser(int id)
+        {
+            var dbUser = await users.FirstAsync(x => x.Id == id);
+            if (dbUser != null)
+            {
+                users.Remove(dbUser);
+                //_ = SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        
+
     }
 }

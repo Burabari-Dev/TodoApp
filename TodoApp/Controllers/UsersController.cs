@@ -34,5 +34,15 @@ namespace TodoApp.Controllers
             var dbUser = await _context.UpdateUser(user);
             return Ok(dbUser);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteUser([FromQuery] int id)
+        {
+            var deleted = await _context.DeleteUser(id);
+            if(deleted)
+                return NoContent();
+            else
+                return BadRequest();
+        }
     }
 }
