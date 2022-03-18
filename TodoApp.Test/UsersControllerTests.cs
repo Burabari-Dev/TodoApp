@@ -85,6 +85,25 @@ namespace TodoApp.Test
             Assert.NotEqual(fakeUser2.Id, dbResult.Id);
         }
 
+        [Fact]
+        public void DeleteUser_Should_Return_A_204_NoContent_Status()
+        {
+            //GIVEN
+            int id = 5;
+            var fakeUser = A.Fake<User>(x => x.WithArgumentsForConstructor(
+                () => new User(id, "John", "john@email.com", "123")));
+            var dataStore = A.Fake<IUserDBContext>();
+            A.CallTo(() => dataStore.DeleteUser(id)).Returns(Task.FromResult(true));
+            var controller = new UsersController(dataStore);
+
+            //WHEN
+            var actionResult = controller.DeleteUser(id);
+
+            //THEN
+            var result = actionResult.Result;
+            Assert.IsType<NoContentResult>(result);
+            Assert.IsNotType<BadRequestResult>(result);
+        }
 
     }
 }
