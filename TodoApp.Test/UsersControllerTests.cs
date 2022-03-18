@@ -72,10 +72,10 @@ namespace TodoApp.Test
             var actionResult = controller.GetAll();
 
             //THEN
-            var result = (OkObjectResult) actionResult.Result;
-            var results = (IEnumerable<User>) result?.Value;
-            Assert.True(results.Count<User>() <= count);        //?? Why this works? UserDBContext.GetALl returns 15 users!!!
-            //Assert.IsType<User>(results.First<User>());
+            var result = actionResult.Result as OkObjectResult;
+            var dbUsers = result?.Value as IEnumerable<User>;
+            Assert.True(dbUsers?.Count() <= count);        //?? Why this works? UserDBContext.GetALl returns 15 users!!!
+            //Assert.IsType<User>(dbUsers?.First());
         }
 
         [Fact]
