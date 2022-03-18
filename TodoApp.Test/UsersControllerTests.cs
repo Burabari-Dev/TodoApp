@@ -90,8 +90,8 @@ namespace TodoApp.Test
         {
             //GIVEN
             int id = 5;
-            var fakeUser = A.Fake<User>(x => x.WithArgumentsForConstructor(
-                () => new User(id, "John", "john@email.com", "123")));
+            //var fakeUser = A.Fake<User>(x => x.WithArgumentsForConstructor(
+            //    () => new User(id, "John", "john@email.com", "123")));
             var dataStore = A.Fake<IUserDBContext>();
             A.CallTo(() => dataStore.DeleteUser(id)).Returns(Task.FromResult(true));
             var controller = new UsersController(dataStore);
