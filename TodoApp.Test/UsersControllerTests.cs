@@ -59,6 +59,26 @@ namespace TodoApp.Test
         }
 
         [Fact]
+        public void GetAll_Should_Return_10_Users_From_DB()
+        {
+            //GIVEN
+            int count = 10;
+            var fakeUsers = A.CollectionOfDummy<User>(count).AsEnumerable();
+            var dataSource = A.Fake<IUserDBContext>();
+            A.CallTo(() => dataSource.GetAll()).Returns(Task.FromResult(fakeUsers));
+            var controller = new UsersController(dataSource);
+
+            //WHEN
+            var actionResult = controller.GetAll();
+
+            //THEN
+            var result = actionResult.Result as OkObjectResult;
+            var dbUsers = result?.Value as IEnumerable<User>;
+            Assert.True(dbUsers?.Count() <= count);        //?? Why this works? UserDBContext.GetALl returns 15 users!!!
+            //Assert.IsType<User>(dbUsers?.First());
+        }
+
+        [Fact]
         public void UpdateUser_Should_Return_User_With_Updated_Info()
         {
             //GIVEN

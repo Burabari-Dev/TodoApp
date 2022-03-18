@@ -17,6 +17,9 @@ namespace TodoApp.Data
 
         public async Task<User> GetUser(int id) => await users.FirstAsync(x => x.Id == id);
 
+        public async Task<IEnumerable<User>> GetAll() => 
+            users.AsEnumerable().Take(15);      //??? Why does await generate error here???
+
         public async Task<User> UpdateUser(User user)
         {
             if (!await users.AnyAsync(u => u.Id == user.Id))

@@ -5,9 +5,8 @@ namespace TodoApp.Data
 {
     public class TodoDBContext : DbContext, ITodoDBContext
     {
-        public Task<IEnumerable<Todo>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        private DbSet<Todo> todos { get; set; }
+
+        public async Task<IEnumerable<Todo>> GetAll() => todos.AsEnumerable();
     }
 }
