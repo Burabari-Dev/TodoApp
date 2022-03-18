@@ -26,6 +26,13 @@ namespace TodoApp.Controllers
             return Ok(dbUser);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetAll()
+        {
+            var results = await _context.GetAll();
+            return Ok(results);
+        }
+
         [HttpPut]
         public async Task<ActionResult> UpdateUser([FromBody] User user)
         {
