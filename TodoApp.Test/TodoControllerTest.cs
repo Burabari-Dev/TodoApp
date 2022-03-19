@@ -78,5 +78,46 @@ namespace TodoApp.Test
             var dbTodo = result?.Value as Todo;
             Assert.True(result?.StatusCode == 200);
         }
+
+        [Fact]
+        public void UpdateTodo_Should_Return_204_NoContent_When_Successful()
+        {
+            //GIVEN
+            int id = 2;
+            var fakeTodo = A.Fake<Todo>(x => x.WithArgumentsForConstructor(
+                () => new Todo(id, "Task 1", DateTime.Today.AddHours(2), DateTime.Today.AddHours(4), false)));
+            var dbContext = A.Fake<ITodoDBContext>();
+            A.CallTo(() => dbContext.UpdateTodo(id, fakeTodo));
+            var controller = new TodosController(dbContext);
+
+            //WHEN
+            var actionResult = controller.UpdateTodo(id, fakeTodo);
+
+            //THEN
+            var result = actionResult.Result as NoContentResult;
+            Assert.True(result?.StatusCode == 204);
+        }
+
+
+        [Fact]
+        public void UpdateTodo_Should_Return_404_NotFound_When_Failed()
+        {
+            //GIVEN
+            int id = 2;
+            var fakeTodo = A.Fake<Todo>(x => x.WithArgumentsForConstructor(
+                () => new Todo(id, "Task 1", DateTime.Today.AddHours(2), DateTime.Today.AddHours(4), false)));
+            var notFakeTodo = A.Fake<Todo>(x => x.WithArgumentsForConstructor(
+                () => new Todo(4, "Task 2", DateTime.Today.AddHours(2), DateTime.Today.AddHours(4), false)));
+            var dbContext = A.Fake<ITodoDBContext>();
+            A.CallTo(() => dbContext.UpdateTodo(id, notFakeTodo)).Throws(new Exception());
+            var controller = new TodosController(dbContext);
+
+            //WHEN
+            var actionResult = controller.UpdateTodo(id, notFakeTodo);
+
+            //THEN
+            var result = actionResult.Result as NotFoundResult;
+            Assert.True(result?.StatusCode == 404);
+        }
     }
 }
