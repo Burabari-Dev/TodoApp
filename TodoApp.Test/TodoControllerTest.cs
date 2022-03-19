@@ -123,5 +123,44 @@ namespace TodoApp.Test
             var res = result as NotFoundResult;
             Assert.True(res?.StatusCode == 404);
         }
+
+        [Fact]
+        public void DeteteTodo_Should_Return_204_NoContent_When_Successful()
+        {
+            //GIVEN
+            var dummyTodo = A.Dummy<Todo>();
+            var dummyUser = A.Dummy<User>();
+            dummyTodo.Id = 3; 
+            dummyUser.Id = 1;
+            var dbContext = A.Fake<ITodoDBContext>();
+            A.CallTo(() => dbContext.DeleteTodo(dummyTodo.Id, dummyUser.Id));
+            var controller = new TodosController(dbContext);
+
+            //WHEN
+            var actionResult = controller.DeleteTodo(dummyTodo.Id, dummyUser);
+
+            //THEN
+            var result = actionResult.Result;
+            Assert.True(result is NoContentResult);
+        }
+
+
+        [Fact]
+        public void DeteteTodo_Should_Return_400_BadRequest_When_Failed()
+        {
+            //GIVEN
+            var dummyTodo = A.Dummy<Todo>();
+            var dummyUser = A.Dummy<User>();
+            var dbContext = A.Fake<ITodoDBContext>();
+            A.CallTo(() => dbContext.DeleteTodo(dummyTodo.Id, dummyUser.Id)).Throws(new Exception());
+            var controller = new TodosController(dbContext);
+
+            //WHEN
+            var actionResult = controller.DeleteTodo(dummyTodo.Id, dummyUser);
+
+            //THEN
+            var result = actionResult.Result;
+            Assert.True(result is BadRequestResult);
+        }
     }
 }
