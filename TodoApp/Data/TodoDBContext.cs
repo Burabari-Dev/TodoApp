@@ -32,9 +32,16 @@ namespace TodoApp.Data
             SaveChanges();
         }
 
-
-        //public async Task<Todo> UpdateTodo(User user);
-        //public async Task<Todo> DeleteTodo(int id);
+        public void DeleteTodo(int id, int userId)
+        {
+            if(! users.Any(u => u.Id == userId))
+                throw new Exception();  //TODO: Use a better custom?? exception
+            if(! users.First(u => u.Id == userId).Todos.Any(t => t.Id == id))
+                throw new Exception();  //TODO: Use a better custom?? exception
+            var todo = users.First(u => u.Id == userId).Todos.First(t => t.Id == id);
+            todos.Remove(todo);
+            SaveChanges(true);
+        }
 
     }
 }

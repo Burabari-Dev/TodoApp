@@ -58,5 +58,18 @@ namespace TodoApp.Controllers
                 return NotFound();
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteTodo(int id, [FromBody] User user)
+        {
+            try
+            {
+                _context.DeleteTodo(id, user.Id);
+                return NoContent();
+            }catch(Exception ex)
+            {
+                return BadRequest();
+            }
+        }
     }
 }
