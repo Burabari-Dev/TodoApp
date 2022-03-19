@@ -15,14 +15,17 @@ namespace TodoApp.Data
         {
             var user = await users.FirstAsync(x => x.Id == userId);
             if (user == null)
-                throw new ArgumentException();
+                throw new ArgumentException();  //TODO: Use a better custom?? exception
             user.Todos.Add(todo);
             SaveChanges();
             return todo;
         }
+
+        public async Task<Todo> GetTodo(int id) => await todos.FirstAsync(x => x.Id == id);
+
+
         //public async Task<Todo> UpdateTodo(User user);
         //public async Task<Todo> DeleteTodo(int id);
-        //public async Task<Todo> GetById(int id);
-        
+
     }
 }

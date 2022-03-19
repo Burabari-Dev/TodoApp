@@ -24,6 +24,15 @@ namespace TodoApp.Controllers
             return Ok(todos);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetTodo(int id)
+        {
+            var todo = await _context.GetTodo(id);
+            if(todo == null)
+                return NotFound();
+            return Ok(todo);
+        }
+
         [HttpPost("{id}")]
         public async Task<ActionResult<Todo>> AddTodo(int id, [FromBody] Todo todo)
         {
