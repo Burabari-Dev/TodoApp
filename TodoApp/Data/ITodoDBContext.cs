@@ -8,6 +8,6 @@ namespace TodoApp.Data
         public Task<Todo> AddTodo(int userId, Todo todo);
         public Task<Todo> GetTodo(int id);
         public void UpdateTodo(int id, Todo todo);
-        //public Task<Todo> DeleteTodo(int id);
+        public void DeleteTodo(int id, int userId);
     }
 }
