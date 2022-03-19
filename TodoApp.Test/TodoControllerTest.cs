@@ -58,5 +58,25 @@ namespace TodoApp.Test
             Assert.True(result?.StatusCode == 201);
             //Assert.True(addedTodo.Id == 0);   //TODO: Can we depend on test to have actual values from DB???
         }
+
+        [Fact]
+        public void GetTodo_Should_Return_200_Status_And_Todo_With_Requested_Id()
+        {
+            //GIVEN
+            int id = 3;
+            var fakeDBTodo = A.Fake<Todo>(x => x.WithArgumentsForConstructor(
+                () => new Todo(id, "Task 1", DateTime.Today.AddHours(2), DateTime.Today.AddHours(4), false)));
+            var dbContext = A.Fake<ITodoDBContext>();
+            A.CallTo(() => dbContext.GetTodo(id)).Returns(Task.FromResult(fakeDBTodo));
+            var controller = new TodosController(dbContext);
+
+            //WHEN
+            var actionResult = controller.GetTodo(id);
+
+            //THEN
+            var result = actionResult.Result as OkObjectResult;
+            var dbTodo = result?.Value as Todo;
+            Assert.True(result?.StatusCode == 200);
+        }
     }
 }
