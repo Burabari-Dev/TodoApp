@@ -23,6 +23,15 @@ namespace TodoApp.Data
 
         public async Task<Todo> GetTodo(int id) => await todos.FirstAsync(x => x.Id == id);
 
+        public void UpdateTodo(int id, Todo todo)
+        {
+            var dbTodo = todos.First(x => x.Id == id);
+            if (dbTodo == null)
+                throw new Exception();  //TODO: Use a better custom?? exception
+            todos.Update(todo);
+            SaveChanges();
+        }
+
 
         //public async Task<Todo> UpdateTodo(User user);
         //public async Task<Todo> DeleteTodo(int id);
