@@ -45,5 +45,18 @@ namespace TodoApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateTodo(int id, [FromBody] Todo todo)
+        {
+            try
+            {
+                _context.UpdateTodo(id, todo);
+                return NoContent();
+            } catch(Exception ex)
+            {
+                return NotFound();
+            }
+        }
     }
 }
