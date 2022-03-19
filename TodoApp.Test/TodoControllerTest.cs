@@ -94,8 +94,10 @@ namespace TodoApp.Test
             var actionResult = controller.UpdateTodo(id, fakeTodo);
 
             //THEN
-            var result = actionResult.Result as NoContentResult;
-            Assert.True(result?.StatusCode == 204);
+            var result = actionResult.Result;
+            Assert.True(result is NoContentResult);
+            var res = result as NoContentResult;
+            Assert.True(res?.StatusCode == 204);
         }
 
 
@@ -116,8 +118,10 @@ namespace TodoApp.Test
             var actionResult = controller.UpdateTodo(id, notFakeTodo);
 
             //THEN
-            var result = actionResult.Result as NotFoundResult;
-            Assert.True(result?.StatusCode == 404);
+            var result = actionResult.Result;
+            Assert.True(result is NotFoundResult);
+            var res = result as NotFoundResult;
+            Assert.True(res?.StatusCode == 404);
         }
     }
 }
