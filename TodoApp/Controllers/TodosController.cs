@@ -23,5 +23,18 @@ namespace TodoApp.Controllers
                 return NotFound();
             return Ok(todos);
         }
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult<Todo>> AddTodo(int id, [FromBody] Todo todo)
+        {
+            try
+            {
+                var dbTodo = await _context.AddTodo(id, todo);
+                return Created($"api/todos/{dbTodo.Id}", dbTodo);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
